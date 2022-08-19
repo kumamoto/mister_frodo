@@ -16,7 +16,7 @@ void main() {
       var apiKey = env['THE_ONE_API_KEY'] as String;
       misterFrodo = MisterFrodo(
           apiKey: apiKey,
-          cache: false,
+          cache: true,
           debug: true,
           baseUrl: "https://the-one-api-cache.127k.workers.dev");
     });

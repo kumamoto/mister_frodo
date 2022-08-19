@@ -1,6 +1,6 @@
 name: mister_frodo
 description: a dart client sdk to the https://the-one-api.dev/v2 api
-version: 1.0.1
+version: 1.0.1+1
 homepage: https://github.com/kumamoto/mister_frodo
 
 environment:

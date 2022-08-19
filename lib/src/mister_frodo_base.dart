@@ -31,19 +31,34 @@ class MisterFrodo implements RestClient {
     }
 
     if (cache) {
-      var systemTempDir = Directory.systemTemp;
-      final options = CacheOptions(
-        store: HiveCacheStore(systemTempDir.path),
-        policy: CachePolicy.forceCache,
-        hitCacheOnErrorExcept: [401, 403, 429],
-        maxStale: const Duration(days: 7),
-        priority: CachePriority.normal,
-        cipher: null,
-        keyBuilder: CacheOptions.defaultCacheKeyBuilder,
-        allowPostMethod: false,
-      );
 
-      _dio.interceptors.add(DioCacheInterceptor(options: options));
+      if (Platform.isAndroid || Platform.isIOS) {
+        var systemTempDir = Directory.systemTemp;
+        final options = CacheOptions(
+          store: HiveCacheStore(systemTempDir.path),
+          policy: CachePolicy.forceCache,
+          hitCacheOnErrorExcept: [401, 403, 429],
+          maxStale: const Duration(days: 7),
+          priority: CachePriority.normal,
+          cipher: null,
+          keyBuilder: CacheOptions.defaultCacheKeyBuilder,
+          allowPostMethod: false,
+        );
+        _dio.interceptors.add(DioCacheInterceptor(options: options));
+      } else {
+        final options = CacheOptions(
+          store: MemCacheStore(maxSize: 10485760, maxEntrySize: 1048576),
+          policy: CachePolicy.forceCache,
+          hitCacheOnErrorExcept: [401, 403, 429],
+          maxStale: const Duration(days: 7),
+          priority: CachePriority.normal,
+          cipher: null,
+          keyBuilder: CacheOptions.defaultCacheKeyBuilder,
+          allowPostMethod: false,
+        );
+        _dio.interceptors.add(DioCacheInterceptor(options: options));
+      }
+
     }
 
     _dio.options.headers["Authorization"] = "Bearer $apiKey";
