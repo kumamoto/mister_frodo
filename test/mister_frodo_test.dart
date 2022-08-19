@@ -14,7 +14,11 @@ void main() {
         throw Exception("setup env var THE_ONE_API_KEY or create a .env file");
       }
       var apiKey = env['THE_ONE_API_KEY'] as String;
-      misterFrodo = MisterFrodo(apiKey: apiKey, cache: true, debug: true);
+      misterFrodo = MisterFrodo(
+          apiKey: apiKey,
+          cache: false,
+          debug: true,
+          baseUrl: "https://the-one-api-cache.127k.workers.dev");
     });
 
     test('Get Books', () async {
